@@ -20,7 +20,7 @@ public class Aluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false, unique = true)
     private String matricula;
@@ -28,7 +28,7 @@ public class Aluno {
     @Column(nullable = false)
     private String nome;
 
-    @ManyToMany(mappedBy = "codigo")
+    @ManyToMany
     private List<Curso> cursos;
     
 }

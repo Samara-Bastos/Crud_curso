@@ -21,7 +21,7 @@ public class Professor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private String nome;
@@ -29,7 +29,7 @@ public class Professor {
     @Column(nullable = false, unique = true)
     private String registro;
 
-    @OneToMany(mappedBy = "codigo")
+    @OneToMany(mappedBy = "professor")
     private List<Curso> cursos;
     
 }
