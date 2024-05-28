@@ -1,8 +1,11 @@
 package crud.curso.service;
 
+import org.springframework.stereotype.Service;
+
 import crud.curso.dto.AlunoRequestDTO;
 import crud.curso.dto.AlunoResponseDTO;
 
+@Service
 public class AlunoServiceImpl implements AlunoService {
 
     @Override
@@ -23,4 +26,5 @@ public class AlunoServiceImpl implements AlunoService {
     public void deletar(String matricula){
 
     };
+    
 }
