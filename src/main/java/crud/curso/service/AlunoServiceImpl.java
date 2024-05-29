@@ -9,6 +9,8 @@ import crud.curso.exceptions.FindAlunoException;
 import crud.curso.mapper.AlunoMapper;
 import crud.curso.model.Aluno;
 import crud.curso.repository.AlunoRepository;
+import jakarta.transaction.Transactional;
+
 import java.util.Optional;
 
 @Service
@@ -18,6 +20,7 @@ public class AlunoServiceImpl implements AlunoService {
     AlunoRepository alunoRepository;
 
     @Override
+    @Transactional
     public AlunoResponseDTO cadastrar(AlunoRequestDTO alunoRequestDTO){
 
         Optional<Aluno> alunoBuscado = alunoRepository.findByMatricula(alunoRequestDTO.matricula());
@@ -35,6 +38,7 @@ public class AlunoServiceImpl implements AlunoService {
     };
 
     @Override
+    @Transactional
     public AlunoResponseDTO atualizar(String matricula, AlunoRequestDTO alunoRequestDTO){
         
         AlunoResponseDTO AlunoResponseDTO = null;
@@ -42,6 +46,7 @@ public class AlunoServiceImpl implements AlunoService {
     };
 
     @Override
+    @Transactional
     public void deletar(String matricula){
 
     };
