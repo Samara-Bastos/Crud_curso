@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
@@ -22,11 +23,13 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String matricula;
-
-    @Column(nullable = false)
+    @Setter
+    @Column(nullable = false, length = 60)
     private String nome;
+
+    @Setter
+    @Column(nullable = false, unique = true, length = 8)
+    private String matricula;
 
     @ManyToMany
     private List<Curso> cursos;

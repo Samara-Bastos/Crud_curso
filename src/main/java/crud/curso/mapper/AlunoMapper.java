@@ -12,7 +12,7 @@ public interface AlunoMapper {
     
     AlunoMapper INSTANCE = Mappers.getMapper(AlunoMapper.class);
 
-    Aluno requestDTOToAluno(AlunoRequestDTO alunoRequestDTO);
+    Aluno dtoToAluno(AlunoRequestDTO dto);
 
     AlunoResponseDTO alunoToResponseDTO(Aluno aluno);
 

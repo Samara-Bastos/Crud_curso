@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import crud.curso.dto.AlunoRequestDTO;
 import crud.curso.dto.AlunoResponseDTO;
 import crud.curso.service.AlunoService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/aluno")
@@ -19,8 +20,8 @@ public class AlunoController {
     @Autowired
     AlunoService alunoService;
     
-    @PostMapping("/create")
-    public ResponseEntity<AlunoResponseDTO> cadastrar(@RequestBody AlunoRequestDTO alunoRequestDTO){
+    @PostMapping("/cadastro")
+    public ResponseEntity<AlunoResponseDTO> cadastrar(@RequestBody @Valid AlunoRequestDTO alunoRequestDTO){
         AlunoResponseDTO alunoResponseDTO = alunoService.cadastrar(alunoRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(alunoResponseDTO);
     }
