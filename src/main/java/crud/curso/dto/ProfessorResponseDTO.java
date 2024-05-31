@@ -1,14 +1,15 @@
 package crud.curso.dto;
 
-import crud.curso.model.Curso;
-import java.util.List;
+import crud.curso.model.Professor;
 
 public record ProfessorResponseDTO(
 
     String nome,
 
-    String registro,
+    String registro
 
-    List<Curso> cursos
-
-) {}
+) {
+    public ProfessorResponseDTO(Professor professor){
+        this(professor.getNome(), professor.getRegistro());
+    }
+}

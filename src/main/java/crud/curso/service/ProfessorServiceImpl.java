@@ -1,8 +1,9 @@
 package crud.curso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.Collections;
 import java.util.Optional;
 import crud.curso.dto.ProfessorRequestDTO;
@@ -63,5 +64,12 @@ public class ProfessorServiceImpl implements ProfessorService{
     @Transactional
     public void deletar(String codigo){
 
+    }
+
+    @Override
+    public Page<ProfessorResponseDTO> findAll(Pageable paginacao){
+        return professorRepository.findAll(paginacao).map(professor -> {
+                return new ProfessorResponseDTO(professor);
+        });
     }
 }
