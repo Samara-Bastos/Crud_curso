@@ -6,11 +6,15 @@ import org.springframework.stereotype.Service;
 import crud.curso.dto.AlunoRequestDTO;
 import crud.curso.dto.AlunoResponseDTO;
 import crud.curso.exceptions.FindAlunoException;
+import crud.curso.exceptions.NotFoundCursoException;
 import crud.curso.mapper.AlunoMapper;
 import crud.curso.model.Aluno;
+import crud.curso.model.Curso;
 import crud.curso.repository.AlunoRepository;
+import crud.curso.repository.CursoRepository;
 import jakarta.transaction.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -18,6 +22,9 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Autowired
     AlunoRepository alunoRepository;
+
+    @Autowired
+    CursoRepository cursoRepository;
 
     @Override
     @Transactional
@@ -28,8 +35,16 @@ public class AlunoServiceImpl implements AlunoService {
         if(alunoBuscado.isPresent()){
             throw new FindAlunoException("Ja existe um aluno cadastrado com essa matricula");
         }
+
+        Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(alunoRequestDTO.codigo());
+                                                                                                                         
+        if(cursoBuscado.isEmpty()){
+            throw new NotFoundCursoException("Não existe nenhum curso com esse código");
+        }    
         
         Aluno aluno = AlunoMapper.INSTANCE.dtoToAluno(alunoRequestDTO);
+
+        aluno.setCursos(Collections.singletonList(cursoBuscado.get()));
 
         alunoRepository.save(aluno);
 

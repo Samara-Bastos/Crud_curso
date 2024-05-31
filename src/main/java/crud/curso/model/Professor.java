@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
@@ -23,12 +24,15 @@ public class Professor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Setter
+    @Column(nullable = false, length = 60)
     private String nome;
 
-    @Column(nullable = false, unique = true)
+    @Setter
+    @Column(nullable = false, unique = true, length = 4)
     private String registro;
 
+    @Setter
     @OneToMany(mappedBy = "professor")
     private List<Curso> cursos;
     

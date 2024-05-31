@@ -31,6 +31,7 @@ public class Aluno {
     @Column(nullable = false, unique = true, length = 8)
     private String matricula;
 
+    @Setter
     @ManyToMany
     private List<Curso> cursos;
     

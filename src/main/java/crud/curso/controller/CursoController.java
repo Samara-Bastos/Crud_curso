@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import crud.curso.dto.CursoRequestDTO;
 import crud.curso.dto.CursoResponseDTO;
-import crud.curso.service.CursoServiceImpl;
+import crud.curso.service.CursoService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -17,12 +17,12 @@ import jakarta.validation.Valid;
 public class CursoController {
     
     @Autowired
-    CursoServiceImpl cursoServiceImpl;
+    CursoService cursoService;
 
 
-    @PostMapping("/cadastrar")
-    public ResponseEntity<CursoResponseDTO> cadastrar(@RequestBody @Valid CursoRequestDTO cursoRequestDTO){
-        CursoResponseDTO cursoResponseDTO = cursoServiceImpl.cadastrar(cursoRequestDTO);
+    @PostMapping("/cadastro")
+    public ResponseEntity<CursoResponseDTO> cadastrar(@Valid @RequestBody CursoRequestDTO cursoRequestDTO){
+        CursoResponseDTO cursoResponseDTO = cursoService.cadastrar(cursoRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(cursoResponseDTO);
     }
 
