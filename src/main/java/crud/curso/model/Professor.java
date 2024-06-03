@@ -1,10 +1,9 @@
 package crud.curso.model;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-//import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,8 +35,9 @@ public class Professor {
     private String registro;
 
     @Setter
+    @JsonManagedReference
     @JsonIgnore
-    @OneToMany(mappedBy = "professor")
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.PERSIST)
     private List<Curso> cursos;
     
 }

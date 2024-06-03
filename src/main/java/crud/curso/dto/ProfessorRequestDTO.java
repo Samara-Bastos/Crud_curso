@@ -8,8 +8,6 @@ public record ProfessorRequestDTO(
     String nome,
 
     @NotBlank(message = "O campo registro deve ser preenchido")
-    String registro,
-
-    String codigo
+    String registro
     
 ) {} 

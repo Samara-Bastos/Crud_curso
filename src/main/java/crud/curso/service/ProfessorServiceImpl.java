@@ -4,14 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
 import java.util.Optional;
 import crud.curso.dto.ProfessorRequestDTO;
 import crud.curso.dto.ProfessorResponseDTO;
 import crud.curso.exceptions.FindProfessorException;
-import crud.curso.exceptions.NotFoundCursoException;
 import crud.curso.mapper.ProfessorMapper;
-import crud.curso.model.Curso;
 import crud.curso.model.Professor;
 import crud.curso.repository.CursoRepository;
 import crud.curso.repository.ProfessorRepository;
@@ -36,15 +33,7 @@ public class ProfessorServiceImpl implements ProfessorService{
             throw new FindProfessorException("Já existe um professor cadastrado com esse registro");
         }
 
-        Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(professorRequestDTO.codigo());
-
-        if(cursoBuscado.isEmpty()){
-            throw new NotFoundCursoException("Não existe nenhum curso com esse código");
-        }
-
         Professor professor = ProfessorMapper.INSTANCE.requestDTOToProfessor(professorRequestDTO);
-
-        professor.setCursos(Collections.singletonList(cursoBuscado.get()));
 
         professorRepository.save(professor);
 

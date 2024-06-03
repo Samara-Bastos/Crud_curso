@@ -8,17 +8,23 @@ import org.springframework.stereotype.Service;
 import crud.curso.dto.CursoRequestDTO;
 import crud.curso.dto.CursoResponseDTO;
 import crud.curso.exceptions.FindCursoException;
+import crud.curso.exceptions.NotFoundProfessorException;
 import crud.curso.mapper.CursoMapper;
 import crud.curso.repository.CursoRepository;
+import crud.curso.repository.ProfessorRepository;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
 import crud.curso.model.Curso;
+import crud.curso.model.Professor;
 
 @Service
 public class CursoServiceImpl implements CursoService {
     
     @Autowired
     CursoRepository cursoRepository;
+
+    @Autowired
+    ProfessorRepository professorRepository;
 
 
     @Override 
@@ -31,7 +37,15 @@ public class CursoServiceImpl implements CursoService {
             throw new FindCursoException("Já existe um curso cadastrado com esse código");
         }
 
+        Optional<Professor> professor = professorRepository.findByRegistro(cursoRequestDTO.registro_professor());
+
+        if(professor.isEmpty()){
+            throw new NotFoundProfessorException("Não existe um professor cadastrado com esse registro");
+        }
+
         Curso curso = CursoMapper.INSTANCE.requestToCurso(cursoRequestDTO);
+
+        curso.setProfessor(professor.get());
 
         cursoRepository.save(curso);
 

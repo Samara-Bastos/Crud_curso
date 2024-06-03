@@ -38,7 +38,7 @@ public class AlunoServiceImpl implements AlunoService {
             throw new FindAlunoException("Ja existe um aluno cadastrado com essa matricula");
         }
 
-        Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(alunoRequestDTO.codigo());
+        Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(alunoRequestDTO.codigo_curso());
                                                                                                                          
         if(cursoBuscado.isEmpty()){
             throw new NotFoundCursoException("Não existe nenhum curso com esse código");
