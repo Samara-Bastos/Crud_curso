@@ -26,7 +26,6 @@ import crud.curso.dto.ProfessorRequestDTO;
 import crud.curso.dto.ProfessorResponseDTO;
 import crud.curso.exceptions.FindProfessorException;
 import crud.curso.fixture.ProfessorFixture;
-import crud.curso.model.Curso;
 import crud.curso.model.Professor;
 import crud.curso.repository.ProfessorRepository;
 import crud.curso.service.ProfessorServiceImpl;
@@ -59,8 +58,7 @@ public class ProfessorTest {
     @Test
     @DisplayName("Não deve permitir a inserção de um professor")
     void cadastrarException(){
-        List<Curso> cursosVazios = new ArrayList<>();
-        Professor professor = new Professor(1, "Laura", "1010",cursosVazios);
+        Professor professor = new Professor("Marcos","2020");
 
         when(professorRepository.findByRegistro(dtoRequestValido.registro())).thenReturn(Optional.of(professor));
 
