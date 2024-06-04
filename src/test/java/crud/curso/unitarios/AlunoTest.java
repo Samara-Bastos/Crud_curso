@@ -26,7 +26,6 @@ import crud.curso.dto.AlunoResponseDTO;
 import crud.curso.exceptions.FindAlunoException;
 import crud.curso.fixture.AlunoFixture;
 import crud.curso.model.Aluno;
-import crud.curso.model.Curso;
 import crud.curso.repository.AlunoRepository;
 import crud.curso.repository.CursoRepository;
 import crud.curso.service.AlunoServiceImpl;
@@ -51,9 +50,6 @@ public class AlunoTest {
     @DisplayName("Deve permitir a inserção de um aluno")
     void cadastrar(){
 
-        Curso curso = new Curso("Algoritimo","1010");
-
-        when(cursoRepository.findByCodigo(dtoRequestValido.codigo_curso())).thenReturn(Optional.of(curso));
         when(alunoRepository.findByMatricula(dtoRequestValido.matricula())).thenReturn(Optional.empty());
 
         AlunoResponseDTO result = alunoServiceImpl.cadastrar(dtoRequestValido);

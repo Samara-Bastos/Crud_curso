@@ -8,8 +8,6 @@ public record AlunoRequestDTO(
     String nome,
 
     @NotBlank(message =  "A matricula deve ser preenchida")
-    String matricula,
-
-    String codigo_curso
+    String matricula
     
 ) {}

@@ -16,7 +16,6 @@ import crud.curso.repository.AlunoRepository;
 import crud.curso.repository.CursoRepository;
 import jakarta.transaction.Transactional;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -36,17 +35,9 @@ public class AlunoServiceImpl implements AlunoService {
 
         if(alunoBuscado.isPresent()){
             throw new FindAlunoException("Ja existe um aluno cadastrado com essa matricula");
-        }
-
-        Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(alunoRequestDTO.codigo_curso());
-                                                                                                                         
-        if(cursoBuscado.isEmpty()){
-            throw new NotFoundCursoException("Não existe nenhum curso com esse código");
-        }    
+        }   
         
         Aluno aluno = AlunoMapper.INSTANCE.dtoToAluno(alunoRequestDTO);
-
-        aluno.setCursos(Collections.singletonList(cursoBuscado.get()));
 
         alunoRepository.save(aluno);
 
@@ -65,6 +56,46 @@ public class AlunoServiceImpl implements AlunoService {
     @Override
     @Transactional
     public void deletar(String matricula){
+
+    };
+
+    @Override
+    @Transactional
+    public void matricular(String matricula, String codigo){
+
+        Optional<Aluno> alunoBuscado = alunoRepository.findByMatricula(matricula);
+
+        if(alunoBuscado.isEmpty()){
+            throw new NotFoundCursoException("Não existe nenhum aluno cadastrado com essa matricula");
+        }
+
+        Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(codigo);
+                                                                                                                         
+        if(cursoBuscado.isEmpty()){
+            throw new NotFoundCursoException("Não existe nenhum curso cadastrado com esse código");
+        } 
+        
+        alunoRepository.matricularAluno(alunoBuscado.get().getId(),cursoBuscado.get().getId());
+
+    };
+
+    @Override
+    @Transactional
+    public void desmatricular(String matricula, String codigo){
+
+        Optional<Aluno> alunoBuscado = alunoRepository.findByMatricula(matricula);
+
+        if(alunoBuscado.isEmpty()){
+            throw new NotFoundCursoException("Não existe nenhum aluno cadastrado com essa matricula");
+        }
+
+        Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(codigo);
+                                                                                                                         
+        if(cursoBuscado.isEmpty()){
+            throw new NotFoundCursoException("Não existe nenhum curso cadastrado com esse código");
+        } 
+        
+        alunoRepository.desmatricularAluno(alunoBuscado.get().getId(),cursoBuscado.get().getId());
 
     };
 

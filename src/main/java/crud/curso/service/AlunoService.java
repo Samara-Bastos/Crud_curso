@@ -14,6 +14,10 @@ public interface AlunoService {
 
     public void deletar(String matricula);
 
+    public void matricular(String matricula, String codigo);
+
+    public void desmatricular(String matricula, String codigo);
+
     public Page<AlunoResponseDTO> findAll(Pageable paginacao);
     
 }

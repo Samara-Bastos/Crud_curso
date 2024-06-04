@@ -6,7 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,4 +36,16 @@ public class AlunoController {
     public Page<AlunoResponseDTO> exibir(@PageableDefault(size = 3, sort = "nome", direction = Sort.Direction.ASC) Pageable paginacao){
         return alunoService.findAll(paginacao);
     }
+
+    @PostMapping("/matricular/{matricula}/{codigo}")
+    public ResponseEntity<Void> matricular(@PathVariable String matricula, @PathVariable String codigo){
+        alunoService.matricular(matricula, codigo);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("/desmatricular/{matricula}/{codigo}")
+    public void desmatricular(@PathVariable String matricula, @PathVariable String codigo){
+        alunoService.desmatricular(matricula, codigo);
+    }
+    
 }
