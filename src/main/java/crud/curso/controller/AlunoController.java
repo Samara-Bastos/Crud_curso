@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,4 +49,15 @@ public class AlunoController {
         alunoService.desmatricular(matricula, codigo);
     }
     
+    @PatchMapping("/atualizar/{matricula}")
+    public ResponseEntity<AlunoResponseDTO> atualizar(@PathVariable String matricula, AlunoRequestDTO alunoRequestDTO){
+        AlunoResponseDTO alunoResponseDTO = alunoService.atualizar(matricula, alunoRequestDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(alunoResponseDTO);
+    }
+
+    @DeleteMapping("/deletar/{matricula}")
+	public ResponseEntity<Void> deletar(@PathVariable String matricula) {
+		alunoService.deletar(matricula);
+		return ResponseEntity.noContent().build();
+	}
 }

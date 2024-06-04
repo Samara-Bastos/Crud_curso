@@ -8,6 +8,7 @@ import java.util.Optional;
 import crud.curso.dto.ProfessorRequestDTO;
 import crud.curso.dto.ProfessorResponseDTO;
 import crud.curso.exceptions.FindProfessorException;
+import crud.curso.exceptions.NotFoundProfessorException;
 import crud.curso.mapper.ProfessorMapper;
 import crud.curso.model.Professor;
 import crud.curso.repository.CursoRepository;
@@ -43,16 +44,36 @@ public class ProfessorServiceImpl implements ProfessorService{
 
     @Override 
     @Transactional
-    public ProfessorResponseDTO atualizar(String codigo, ProfessorRequestDTO professorRequestDTO){
+    public ProfessorResponseDTO atualizar(String registro, ProfessorRequestDTO professorRequestDTO){
 
-        ProfessorResponseDTO professorResponseDTO = null;
+        Optional<Professor> professorBuscado = professorRepository.findByRegistro(registro);
+
+        if(professorBuscado.isEmpty()){
+            throw new NotFoundProfessorException("Não existe nenhum professor cadastrado com esse registro");
+        }
+
+        Professor professorNovo = ProfessorMapper.INSTANCE.requestDTOToProfessor(professorRequestDTO);
+
+        professorBuscado.get().setNome(professorNovo.getNome());
+        professorBuscado.get().setRegistro(professorNovo.getRegistro());
+
+        professorRepository.save(professorBuscado.get());
+
+        ProfessorResponseDTO professorResponseDTO = ProfessorMapper.INSTANCE.professorToResponseDTO(professorBuscado.get());
         return professorResponseDTO;
     }
 
     @Override 
     @Transactional
-    public void deletar(String codigo){
+    public void deletar(String registro){
+        
+        Optional<Professor> professorBuscado = professorRepository.findByRegistro(registro);
 
+        if(professorBuscado.isEmpty()){
+            throw new NotFoundProfessorException("Não existe nenhum professor cadastrado com esse registro");
+        }
+
+        professorRepository.delete(professorBuscado.get());
     }
 
     @Override

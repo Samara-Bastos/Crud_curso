@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import crud.curso.dto.AlunoRequestDTO;
 import crud.curso.dto.AlunoResponseDTO;
 import crud.curso.exceptions.FindAlunoException;
+import crud.curso.exceptions.NotFoundAlunoException;
 import crud.curso.exceptions.NotFoundCursoException;
 import crud.curso.mapper.AlunoMapper;
 import crud.curso.model.Aluno;
@@ -48,8 +49,21 @@ public class AlunoServiceImpl implements AlunoService {
     @Override
     @Transactional
     public AlunoResponseDTO atualizar(String matricula, AlunoRequestDTO alunoRequestDTO){
+
+        Optional<Aluno> alunoBuscado = alunoRepository.findByMatricula(matricula);
+
+        if(alunoBuscado.isEmpty()){
+            throw new NotFoundAlunoException("Não existe nenhum aluno cadastrado com essa matricula");
+        }   
         
-        AlunoResponseDTO AlunoResponseDTO = null;
+        Aluno alunoNovo = AlunoMapper.INSTANCE.dtoToAluno(alunoRequestDTO);
+
+        alunoBuscado.get().setNome(alunoNovo.getNome());
+        alunoBuscado.get().setMatricula(alunoNovo.getMatricula());
+
+        alunoRepository.save(alunoBuscado.get());
+
+        AlunoResponseDTO AlunoResponseDTO = AlunoMapper.INSTANCE.alunoToResponseDTO(alunoBuscado.get());
         return AlunoResponseDTO;
     };
 
@@ -57,6 +71,13 @@ public class AlunoServiceImpl implements AlunoService {
     @Transactional
     public void deletar(String matricula){
 
+        Optional<Aluno> alunoBuscado = alunoRepository.findByMatricula(matricula);
+
+        if(alunoBuscado.isEmpty()){
+            throw new NotFoundAlunoException("Não existe nenhum aluno cadastrado com essa matricula");
+        } 
+
+        alunoRepository.delete(alunoBuscado.get());
     };
 
     @Override
@@ -66,7 +87,7 @@ public class AlunoServiceImpl implements AlunoService {
         Optional<Aluno> alunoBuscado = alunoRepository.findByMatricula(matricula);
 
         if(alunoBuscado.isEmpty()){
-            throw new NotFoundCursoException("Não existe nenhum aluno cadastrado com essa matricula");
+            throw new NotFoundAlunoException("Não existe nenhum aluno cadastrado com essa matricula");
         }
 
         Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(codigo);
@@ -86,7 +107,7 @@ public class AlunoServiceImpl implements AlunoService {
         Optional<Aluno> alunoBuscado = alunoRepository.findByMatricula(matricula);
 
         if(alunoBuscado.isEmpty()){
-            throw new NotFoundCursoException("Não existe nenhum aluno cadastrado com essa matricula");
+            throw new NotFoundAlunoException("Não existe nenhum aluno cadastrado com essa matricula");
         }
 
         Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(codigo);

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import crud.curso.dto.CursoRequestDTO;
 import crud.curso.dto.CursoResponseDTO;
 import crud.curso.exceptions.FindCursoException;
+import crud.curso.exceptions.NotFoundCursoException;
 import crud.curso.exceptions.NotFoundProfessorException;
 import crud.curso.mapper.CursoMapper;
 import crud.curso.repository.CursoRepository;
@@ -57,7 +58,27 @@ public class CursoServiceImpl implements CursoService {
     @Transactional
     public CursoResponseDTO atualizar(String codigo, CursoRequestDTO cursoRequestDTO){
 
-        CursoResponseDTO cursoResponseDTO = null;
+        Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(codigo);
+
+        if(cursoBuscado.isEmpty()){
+            throw new NotFoundCursoException("Não existe nenhum curso cadastrado com esse código");
+        }
+
+        Optional<Professor> professor = professorRepository.findByRegistro(cursoRequestDTO.registro_professor());
+
+        if(professor.isEmpty()){
+            throw new NotFoundProfessorException("Não existe nenhum professor cadastrado com esse registro");
+        }
+
+        Curso cursoNovo = CursoMapper.INSTANCE.requestToCurso(cursoRequestDTO);
+
+        cursoBuscado.get().setNome(cursoNovo.getNome());
+        cursoBuscado.get().setCodigo(cursoNovo.getCodigo());
+        cursoBuscado.get().setProfessor(professor.get());
+
+        cursoRepository.save(cursoBuscado.get());
+
+        CursoResponseDTO cursoResponseDTO = CursoMapper.INSTANCE.cursoToResponseDTO(cursoBuscado.get());
         return cursoResponseDTO;
     }
 
@@ -65,6 +86,13 @@ public class CursoServiceImpl implements CursoService {
     @Transactional
     public void deletar(String codigo){
 
+        Optional<Curso> cursoBuscado = cursoRepository.findByCodigo(codigo);
+
+        if(cursoBuscado.isEmpty()){
+            throw new NotFoundCursoException("Não existe nenhum curso cadastrado com esse código");
+        }
+
+        cursoRepository.delete(cursoBuscado.get());
     }
 
      @Override
