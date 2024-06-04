@@ -40,4 +40,8 @@ public class Professor {
     @OneToMany(mappedBy = "professor", cascade = CascadeType.PERSIST)
     private List<Curso> cursos;
     
+    public Professor(String nome, String registro){
+        this.nome = nome;
+        this.registro = registro;
+    }
 }

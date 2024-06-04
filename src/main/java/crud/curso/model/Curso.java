@@ -44,4 +44,10 @@ public class Curso {
     @ManyToMany(mappedBy = "cursos")
     private List<Aluno> alunos;
 
+
+    public Curso(String nome, String codigo){
+        this.nome = nome;
+        this.codigo = codigo;
+    }
+
 }

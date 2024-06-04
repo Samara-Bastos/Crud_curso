@@ -39,4 +39,9 @@ public class Aluno {
     @JsonIgnore
     private List<Curso> cursos;
     
+
+    public Aluno(String nome, String matricula){
+        this.nome = nome;
+        this.matricula = matricula;
+    }
 }
