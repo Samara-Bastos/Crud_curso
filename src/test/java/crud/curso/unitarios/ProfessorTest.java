@@ -3,6 +3,7 @@ package crud.curso.unitarios;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -17,6 +18,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageImpl;
+
 import crud.curso.dto.ProfessorRequestDTO;
 import crud.curso.dto.ProfessorResponseDTO;
 import crud.curso.exceptions.FindProfessorException;
@@ -64,5 +69,20 @@ public class ProfessorTest {
         });
 
         verify(professorRepository, never()).save(any(Professor.class));
+    }
+
+
+    @Test
+    @DisplayName("Deve permitir a exibição de todos os professores")
+    void exibirTodos(){
+        List<Professor> professor = new ArrayList<>();
+
+        Page<Professor> professorPage = new PageImpl<>(professor);
+
+        when(professorRepository.findAll(any(Pageable.class))).thenReturn(professorPage);
+
+        Page<ProfessorResponseDTO> ProfessoresEncontrados = professorServiceImpl.findAll(Pageable.unpaged());
+
+        assertTrue(ProfessoresEncontrados.isEmpty());
     }
 }
