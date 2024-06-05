@@ -28,6 +28,7 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'com.h2database:h2' //Apenas de teste
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -37,6 +38,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
-tasks.named('test') {
+tasks.named('test') { 
 	useJUnitPlatform()
 }
