@@ -1,6 +1,6 @@
-
-- CRUD CURSO
-🧑🏻 - Executar
+CRUD CURSO
+  
+- Executar
 Este projeto utiliza o Docker para gerenciar um banco de dados PostgreSQL. Para iniciar, siga estas instruções:
 
 docker compose up -d # Inicializa o container do PostgreSQL
