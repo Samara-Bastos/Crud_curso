@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -98,5 +99,17 @@ public class ProfessorTest {
         assertEquals(result.nome(), dtoRequestValido.nome());
     }
 
+    @Test 
+    @DisplayName("Deve permitir a exclusão dos dados")
+    void deletarTest(){
+
+        Professor professor = new Professor("Marcos","2020");
+
+        when(professorRepository.findByRegistro(dtoRequestValido.registro())).thenReturn(Optional.of(professor));
+
+        professorServiceImpl.deletar("2020");
+
+        verify(professorRepository, times(1)).delete(professor);
+    }
 
 }

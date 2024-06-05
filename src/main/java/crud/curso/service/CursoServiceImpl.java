@@ -11,10 +11,13 @@ import crud.curso.exceptions.FindCursoException;
 import crud.curso.exceptions.NotFoundCursoException;
 import crud.curso.exceptions.NotFoundProfessorException;
 import crud.curso.mapper.CursoMapper;
+import crud.curso.repository.AlunoRepository;
 import crud.curso.repository.CursoRepository;
 import crud.curso.repository.ProfessorRepository;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
+
+import crud.curso.model.Aluno;
 import crud.curso.model.Curso;
 import crud.curso.model.Professor;
 
@@ -26,6 +29,9 @@ public class CursoServiceImpl implements CursoService {
 
     @Autowired
     ProfessorRepository professorRepository;
+
+    @Autowired
+    AlunoRepository alunoRepository;
 
 
     @Override 
@@ -92,10 +98,25 @@ public class CursoServiceImpl implements CursoService {
             throw new NotFoundCursoException("Não existe nenhum curso cadastrado com esse código");
         }
 
-        cursoRepository.delete(cursoBuscado.get());
+        Curso curso = cursoBuscado.get();
+
+        if(curso.getAlunos() != null){
+            for (Aluno aluno : curso.getAlunos()) {
+                aluno.getCursos().remove(curso);
+                alunoRepository.save(aluno);
+            }
+        }
+
+        if (curso.getProfessor() != null) {
+            curso.getProfessor().getCursos().remove(curso);
+            professorRepository.save(curso.getProfessor());
+        }
+
+        cursoRepository.delete(curso);
+        
     }
 
-     @Override
+    @Override
     public Page<CursoResponseDTO> findAll(Pageable paginacao){
         return cursoRepository.findAll(paginacao).map(curso -> {
                 return new CursoResponseDTO(curso);

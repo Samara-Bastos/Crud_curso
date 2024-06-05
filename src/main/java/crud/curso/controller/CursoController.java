@@ -41,7 +41,7 @@ public class CursoController {
     }
     
     @PatchMapping("/atualizar/{codigo}")
-    public ResponseEntity<CursoResponseDTO> atualizar(@PathVariable String codigo, CursoRequestDTO cursoRequestDTO){
+    public ResponseEntity<CursoResponseDTO> atualizar(@PathVariable String codigo,@RequestBody CursoRequestDTO cursoRequestDTO){
         CursoResponseDTO cursoResponseDTO = cursoService.atualizar(codigo, cursoRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).body(cursoResponseDTO);
     }

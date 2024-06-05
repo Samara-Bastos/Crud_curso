@@ -77,7 +77,16 @@ public class AlunoServiceImpl implements AlunoService {
             throw new NotFoundAlunoException("Não existe nenhum aluno cadastrado com essa matricula");
         } 
 
-        alunoRepository.delete(alunoBuscado.get());
+        Aluno aluno = alunoBuscado.get();
+
+        if(aluno.getCursos() != null){
+            for (Curso curso : aluno.getCursos()) {
+                curso.getAlunos().remove(aluno);
+                cursoRepository.save(curso);
+            }
+        }
+
+        alunoRepository.delete(aluno);
     };
 
     @Override

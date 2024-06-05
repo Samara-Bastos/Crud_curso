@@ -50,7 +50,7 @@ public class AlunoController {
     }
     
     @PatchMapping("/atualizar/{matricula}")
-    public ResponseEntity<AlunoResponseDTO> atualizar(@PathVariable String matricula, AlunoRequestDTO alunoRequestDTO){
+    public ResponseEntity<AlunoResponseDTO> atualizar(@PathVariable String matricula, @RequestBody AlunoRequestDTO alunoRequestDTO){
         AlunoResponseDTO alunoResponseDTO = alunoService.atualizar(matricula, alunoRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).body(alunoResponseDTO);
     }

@@ -10,6 +10,7 @@ import crud.curso.dto.ProfessorResponseDTO;
 import crud.curso.exceptions.FindProfessorException;
 import crud.curso.exceptions.NotFoundProfessorException;
 import crud.curso.mapper.ProfessorMapper;
+import crud.curso.model.Curso;
 import crud.curso.model.Professor;
 import crud.curso.repository.CursoRepository;
 import crud.curso.repository.ProfessorRepository;
@@ -71,6 +72,15 @@ public class ProfessorServiceImpl implements ProfessorService{
 
         if(professorBuscado.isEmpty()){
             throw new NotFoundProfessorException("Não existe nenhum professor cadastrado com esse registro");
+        }
+
+        Professor professor = professorBuscado.get();
+
+        if(professor.getCursos() != null){
+            for (Curso curso : professor.getCursos()) {
+                curso.setProfessor(null);
+                cursoRepository.save(curso);
+            }
         }
 
         professorRepository.delete(professorBuscado.get());

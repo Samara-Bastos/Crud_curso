@@ -40,7 +40,7 @@ public class ProfessorController {
     }
 
     @PatchMapping("/atualizar/{registro}")
-    public ResponseEntity<ProfessorResponseDTO> atualizar(@PathVariable String registro, ProfessorRequestDTO professorRequestDTO){
+    public ResponseEntity<ProfessorResponseDTO> atualizar(@PathVariable String registro,@RequestBody ProfessorRequestDTO professorRequestDTO){
         ProfessorResponseDTO professorResponseDTO = professorService.atualizar(registro, professorRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).body(professorResponseDTO);
     }
