@@ -91,4 +91,22 @@ public class CursoTest {
 
         assertTrue(cursosEncontrados.isEmpty());
     }
+
+    @Test 
+    @DisplayName("Deve permitir a atualização dos dados")
+    void atualizarTest(){
+
+        Curso curso = new Curso("Algoritmo", "A031");
+        Professor professor = new Professor("Marcos","2020");
+        
+        when(cursoRepository.findByCodigo(dtoRequestValido.codigo())).thenReturn(Optional.of(curso));
+        when(professorRepository.findByRegistro(dtoRequestValido.registro_professor())).thenReturn(Optional.of(professor));
+
+        CursoResponseDTO result = cursoServiceImpl.atualizar("A031", dtoRequestValido);
+
+        assertNotNull(result);
+        assertEquals(result.nome(), dtoRequestValido.nome());
+    }
+
+
 }

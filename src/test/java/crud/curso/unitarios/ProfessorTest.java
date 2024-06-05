@@ -83,4 +83,20 @@ public class ProfessorTest {
 
         assertTrue(ProfessoresEncontrados.isEmpty());
     }
+
+    @Test 
+    @DisplayName("Deve permitir a atualização dos dados")
+    void atualizarTest(){
+
+        Professor professor = new Professor("Marcos","2020");
+
+        when(professorRepository.findByRegistro(dtoRequestValido.registro())).thenReturn(Optional.of(professor));
+
+        ProfessorResponseDTO result = professorServiceImpl.atualizar("2020", dtoRequestValido);
+
+        assertNotNull(result);
+        assertEquals(result.nome(), dtoRequestValido.nome());
+    }
+
+
 }

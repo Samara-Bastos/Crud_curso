@@ -5,7 +5,7 @@ import crud.curso.dto.ProfessorRequestDTO;
 public class ProfessorFixture {
     
     public static ProfessorRequestDTO professorRequestValido(){
-        return new ProfessorRequestDTO("Marcia Dolores", "1010");
+        return new ProfessorRequestDTO("Marcia Dolores", "2020");
     }
 
     public static ProfessorRequestDTO professorRequestInvalido(){

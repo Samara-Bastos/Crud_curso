@@ -48,7 +48,7 @@ public class AlunoTest {
 
     @Test
     @DisplayName("Deve permitir a inserção de um aluno")
-    void cadastrar(){
+    void cadastrarTest(){
 
         when(alunoRepository.findByMatricula(dtoRequestValido.matricula())).thenReturn(Optional.empty());
 
@@ -61,7 +61,7 @@ public class AlunoTest {
 
     @Test
     @DisplayName("Não deve permitir a inserção de um aluno")
-    void cadastrarException(){
+    void cadastrarExceptionTest(){
         
         Aluno aluno = new Aluno("Luana","20241515");
 
@@ -76,7 +76,7 @@ public class AlunoTest {
 
     @Test
     @DisplayName("Deve permitir a exibição de todos os alunos")
-    void exibirTodos(){
+    void exibirTodosTest(){
         List<Aluno> aluno = new ArrayList<>();
 
         Page<Aluno> alunoPage = new PageImpl<>(aluno);
@@ -86,5 +86,19 @@ public class AlunoTest {
         Page<AlunoResponseDTO> alunosEncontrados = alunoServiceImpl.findAll(Pageable.unpaged());
 
         assertTrue(alunosEncontrados.isEmpty());
+    }
+
+    @Test 
+    @DisplayName("Deve permitir a atualização dos dados")
+    void atualizarTest(){
+
+        Aluno aluno = new Aluno("Luana","20241515");
+
+        when(alunoRepository.findByMatricula(dtoRequestValido.matricula())).thenReturn(Optional.of(aluno));
+
+        AlunoResponseDTO result = alunoServiceImpl.atualizar("20241515", dtoRequestValido);
+
+        assertNotNull(result);
+        assertEquals(result.nome(), dtoRequestValido.nome());
     }
 }
