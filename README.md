@@ -1,13 +1,14 @@
 
-- CRUD CURSO
-🧑🏻 - Executar
+CRUD CURSO
+
+## Executar
 Este projeto utiliza o Docker para gerenciar um banco de dados PostgreSQL. Para iniciar, siga estas instruções:
 
-docker compose up -d # Inicializa o container do PostgreSQL
+- docker compose up -d # Inicializa o container do PostgreSQL
 
-Após este passo, você pode rodar o projeto normalmente.
+- Após este passo, você pode rodar o projeto normalmente.
 
-Para acessar a documentação das requisições, utilize o Swagger através do link: http://localhost:8080/swagger-ui/index.html
+- Para acessar a documentação das requisições, utilize o Swagger através do link: http://localhost:8080/swagger-ui/index.html
  
 ## 🗃️ **Dependências:**
 - Spring Data JPA
